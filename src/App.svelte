@@ -2,22 +2,22 @@
   import Form from "./lib/form.svelte";
 
   export interface IcharactersPassword{
+    passwordLength: number;
     hasUpercaseLetter: boolean;
     hasLowercaseLetter: boolean;
     hasNumbers: boolean;
     hasSimbols: boolean;
   }
 
-  let password: string = ''
+  let password: string;
 
   let charactersPassword: IcharactersPassword = {
+    passwordLength: 5,
     hasUpercaseLetter: true,
     hasLowercaseLetter: true,
     hasNumbers: true,
     hasSimbols: true,
   }
-  
-
 
 </script>
 
@@ -29,7 +29,7 @@
       <span>{password}</span>
       <input type="checkbox" />
     </div>
-    <Form {charactersPassword}/>
+    <Form bind:charactersPassword bind:password />
   </section>
   
 </main>
