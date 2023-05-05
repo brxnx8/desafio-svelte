@@ -171,41 +171,41 @@
         <span class="font-bold text-lg">Character length</span>
         <span class="text-lg">{charactersPassword.passwordLength}</span>
       </div>
-      <input type="range" name="passwordLength" id="passwordLength" bind:value={charactersPassword.passwordLength} max="15" min="5"/>
+      <input type="range" name="passwordLength" id="passwordLength" class="accent-green-600" bind:value={charactersPassword.passwordLength} max="15" min="5"/>
     </div>
   
     <div class="flex flex-col items-start space-y-2">
       <div>
-        <input type="checkbox" bind:checked="{charactersPassword.hasUpercaseLetter}" name="hasUpercaseLetter" id="hasUpercaseLetter"/>
+        <input type="checkbox" class="accent-green-600" bind:checked="{charactersPassword.hasUpercaseLetter}" name="hasUpercaseLetter" id="hasUpercaseLetter"/>
         <label for="">Include uppercase letters</label>
       </div>
       <div>
-        <input type="checkbox" bind:checked="{charactersPassword.hasLowercaseLetter}" name="hasLowercaseLetter" id="hasLowercaseLetter"/>
+        <input type="checkbox" class="accent-green-600" bind:checked="{charactersPassword.hasLowercaseLetter}" name="hasLowercaseLetter" id="hasLowercaseLetter"/>
         <label for="">Include lowercase letters</label>
       </div>
       <div>
-        <input type="checkbox" bind:checked="{charactersPassword.hasNumbers}" name="hasNumbers" id="hasNumbers"/>
+        <input type="checkbox" class="accent-green-600" bind:checked="{charactersPassword.hasNumbers}" name="hasNumbers" id="hasNumbers"/>
         <label for="">Include numbers</label>
       </div>
       <div>
-        <input type="checkbox" bind:checked="{charactersPassword.hasSimbols}" name="hasSimbols" id="hasSimbols"/>
+        <input type="checkbox" class="accent-green-600" bind:checked="{charactersPassword.hasSimbols}" name="hasSimbols" id="hasSimbols"/>
         <label for="">Include simbols</label>
       </div>
       <div class="flex justify-between w-full px-5 py-3 bg-gray-900">
-        <span class="font-bold">Strength</span>
+        <span class="font-bold">Strength:</span>
         <div class="flex justify-center gap-4">
           <div class="flex justify-center gap-1 items-center bg-gray-800 p-1">
             {#if (passwordNivel === "Easy")}
-              <div class="h-2/3 w-1 bg-red-500"></div>
+              <div class="h-2/3 w-1 bg-red-600"></div>
             {/if}
             {#if passwordNivel === "Medium"}
-              <div class="h-2/3 w-1 bg-yellow-500"></div>
-              <div class="h-2/3 w-1 bg-yellow-500"></div>
+              <div class="h-2/3 w-1 bg-yellow-600"></div>
+              <div class="h-2/3 w-1 bg-yellow-600"></div>
             {/if}
             {#if passwordNivel === "Hard"}
-              <div class="h-2/3 w-1 bg-green-500"></div>
-              <div class="h-2/3 w-1 bg-green-500"></div>
-              <div class="h-2/3 w-1 bg-green-500"></div>
+              <div class="h-2/3 w-1 bg-green-600"></div>
+              <div class="h-2/3 w-1 bg-green-600"></div>
+              <div class="h-2/3 w-1 bg-green-600"></div>
             {/if}
           </div>
         
@@ -213,5 +213,5 @@
         </div>
       </div>
     </div>
-    <button class="bg-green-500 h-12 w-full">Generate</button>
+    <button class="bg-green-600 h-12 w-full hover:bg-green-700">Generate</button>
   </form>
