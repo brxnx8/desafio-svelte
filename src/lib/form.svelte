@@ -1,92 +1,103 @@
 <script type="module" lang="ts">
-    import type { IcharactersPassword } from "../App.svelte";
+  import { createEventDispatcher } from "svelte";
+
+  interface IcharactersPassword{
+    passwordLength: number;
+    hasUpercaseLetter: boolean;
+    hasLowercaseLetter: boolean;
+    hasNumbers: boolean;
+    hasSimbols: boolean;
+  }
+  
+  let charactersPassword: IcharactersPassword = {
+    passwordLength: 5,
+    hasUpercaseLetter: true,
+    hasLowercaseLetter: true,
+    hasNumbers: true,
+    hasSimbols: true,
+  }
+
+  const dispatch = createEventDispatcher();
+
+  const relationOptions = {
+    hasUpercaseLetter: 1,
+    hasLowercaseLetter: 2,
+    hasNumbers: 3,
+    hasSimbols: 4
+  }
+
+  function getRandomInt(max): Number {
+    return Math.floor((Math.random() * max) + 1);
+  }
+
+  function generatePassword(options: IcharactersPassword){
+    const length = options.passwordLength;
     
-    export let charactersPassword: IcharactersPassword;
+    let primaryPassword: Number[] = []
 
-    export let password: string;
-
-    const relationOptions = {
-      hasUpercaseLetter: 1,
-      hasLowercaseLetter: 2,
-      hasNumbers: 3,
-      hasSimbols: 4
-    }
-
-    function getRandomInt(max: Number): Number {
-      return Math.floor((Math.random() * max) + 1);
-    }
-
-    function generatePassword(options: IcharactersPassword){
-      const length = options.passwordLength;
-
-      password = '';
-      
-      let primaryPassword: Number[] = []
- 
-      for (let i = 0; i < length; i++){
-        let quitWhile = true
-        do{
-          const number = getRandomInt(4);
-          for (const option in options){
-            if(options[option]){
-              if(number === relationOptions[option]){
-                primaryPassword.push(number);
-                quitWhile = false;
-              }
+    for (let i = 0; i < length; i++){
+      let quitWhile = true
+      do{
+        const number = getRandomInt(4);
+        for (const option in options){
+          if(options[option]){
+            if(number === relationOptions[option]){
+              primaryPassword.push(number);
+              quitWhile = false;
             }
           }
-        }while(quitWhile)
-      }
-
-      primaryPassword.forEach(number => {
-        let num:Number;
-        switch(true){
-          case(number === relationOptions.hasUpercaseLetter):
-            num = getRandomInt(26);
-            password += String.fromCharCode(num + 64);
-            break; 
-
-          case(number === relationOptions.hasLowercaseLetter):
-            num = getRandomInt(26);
-            password += String.fromCharCode(num + 96);
-            break;
-
-          case(number === relationOptions.hasNumbers):
-            num = getRandomInt(9);
-            password += num.toString();
-            break;
-
-          case(number === relationOptions.hasSimbols):
-            num = getRandomInt(4);
-            password += String.fromCharCode(num + 34);
-            break;
-
-          default:
-            break;
         }
-
-        console.log(password)
-        
-      })
-
+      }while(quitWhile)
     }
+    let pass = '';
+    primaryPassword.forEach(number => {
+      let num;
+      switch(true){
+        case(number === relationOptions.hasUpercaseLetter):
+          num = getRandomInt(26);
+          pass += String.fromCharCode(num + 64);
+          break; 
 
-    function changeOptionsPassword(event: SubmitEvent){
-      const form = event.target;
-      charactersPassword = {
-        passwordLength: Number(form["passwordLength"].value),
-        hasUpercaseLetter: form["hasUpercaseLetter"].checked,
-        hasLowercaseLetter: form["hasLowercaseLetter"].checked,
-        hasNumbers: form["hasNumbers"].checked,
-        hasSimbols: form["hasSimbols"].checked,
+        case(number === relationOptions.hasLowercaseLetter):
+          num = getRandomInt(26);
+          pass += String.fromCharCode(num + 96);
+          break;
+
+        case(number === relationOptions.hasNumbers):
+          num = getRandomInt(9);
+          pass += num.toString();
+          break;
+
+        case(number === relationOptions.hasSimbols):
+          num = getRandomInt(4);
+          pass += String.fromCharCode(num + 34);
+          break;
+
+        default:
+          break;
       }
-      if(charactersPassword.hasLowercaseLetter || charactersPassword.hasUpercaseLetter || charactersPassword.hasNumbers || charactersPassword.hasSimbols){
-        generatePassword(charactersPassword)
-      }
-      else{
-        alert("marque pelo menos um checkbox")
-      }
+      
+    })
+  return pass;
+  }
+
+  function changeOptionsPassword(event: SubmitEvent){
+    const form = event.target;
+    charactersPassword = {
+      passwordLength: Number(form["passwordLength"].value),
+      hasUpercaseLetter: form["hasUpercaseLetter"].checked,
+      hasLowercaseLetter: form["hasLowercaseLetter"].checked,
+      hasNumbers: form["hasNumbers"].checked,
+      hasSimbols: form["hasSimbols"].checked,
     }
+    if(charactersPassword.hasLowercaseLetter || charactersPassword.hasUpercaseLetter || charactersPassword.hasNumbers || charactersPassword.hasSimbols){
+      dispatch("onChangePassword", generatePassword(charactersPassword))
+    }
+    else{
+      alert("marque pelo menos um checkbox")
+    }
+  }
+
 </script>
 
 <form class="bg-gray-800 rounded-sm lex flex-col space-y-3 w-full p-5" on:submit|preventDefault={changeOptionsPassword}>
