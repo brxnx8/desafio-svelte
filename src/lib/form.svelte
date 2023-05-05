@@ -213,5 +213,5 @@
         </div>
       </div>
     </div>
-    <button class="bg-green-600 h-12 w-full hover:bg-green-700">Generate</button>
+    <button class="bg-green-600 h-12 w-full hover:bg-green-700 active:bg-green-900">Generate</button>
   </form>
