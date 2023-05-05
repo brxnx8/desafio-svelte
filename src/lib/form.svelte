@@ -169,7 +169,7 @@
     <div class="space-y-2 flex-col flex">
       <div class="flex justify-between">
         <span class="font-bold text-lg">Character length</span>
-        <span class="text-lg">{charactersPassword.passwordLength}</span>
+        <span class="text-lg text-green-600 font-bold font-mono">{charactersPassword.passwordLength}</span>
       </div>
       <input type="range" name="passwordLength" id="passwordLength" class="accent-green-600" bind:value={charactersPassword.passwordLength} max="15" min="5"/>
     </div>
@@ -196,16 +196,20 @@
         <div class="flex justify-center gap-4">
           <div class="flex justify-center gap-1 items-center bg-gray-800 p-1">
             {#if (passwordNivel === "Easy")}
-              <div class="h-2/3 w-1 bg-red-600"></div>
+              <div class="h-2/3 w-1 border border-red-600 bg-red-600"></div>
+              <div class="h-2/3 w-1 border border-red-600"></div>
+              <div class="h-2/3 w-1 border border-red-600"></div>
             {/if}
             {#if passwordNivel === "Medium"}
-              <div class="h-2/3 w-1 bg-yellow-600"></div>
-              <div class="h-2/3 w-1 bg-yellow-600"></div>
+              <div class="h-2/3 w-1 border border-yellow-600 bg-yellow-600"></div>
+              <div class="h-2/3 w-1 border border-yellow-600 bg-yellow-600"></div>
+              <div class="h-2/3 w-1 border border-yellow-600"></div>
+
             {/if}
             {#if passwordNivel === "Hard"}
-              <div class="h-2/3 w-1 bg-green-600"></div>
-              <div class="h-2/3 w-1 bg-green-600"></div>
-              <div class="h-2/3 w-1 bg-green-600"></div>
+              <div class="h-2/3 w-1 border border-green-600 bg-green-600"></div>
+              <div class="h-2/3 w-1 border border-green-600 bg-green-600"></div>
+              <div class="h-2/3 w-1 border border-green-600 bg-green-600"></div>
             {/if}
           </div>
         
