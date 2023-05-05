@@ -1,4 +1,4 @@
-<script type="module" lang="ts">
+<script lang="ts">
   import { createEventDispatcher } from "svelte";
 
   interface IcharactersPassword{
@@ -16,6 +16,8 @@
     hasNumbers: true,
     hasSimbols: true,
   }
+
+  let passwordNivel = "Medium";
 
   const dispatch = createEventDispatcher();
 
@@ -49,28 +51,28 @@
         }
       }while(quitWhile)
     }
-    let pass = '';
+    let password = '';
     primaryPassword.forEach(number => {
       let num;
       switch(true){
         case(number === relationOptions.hasUpercaseLetter):
           num = getRandomInt(26);
-          pass += String.fromCharCode(num + 64);
+          password += String.fromCharCode(num + 64);
           break; 
 
         case(number === relationOptions.hasLowercaseLetter):
           num = getRandomInt(26);
-          pass += String.fromCharCode(num + 96);
+          password += String.fromCharCode(num + 96);
           break;
 
         case(number === relationOptions.hasNumbers):
           num = getRandomInt(9);
-          pass += num.toString();
+          password += num.toString();
           break;
 
         case(number === relationOptions.hasSimbols):
           num = getRandomInt(4);
-          pass += String.fromCharCode(num + 34);
+          password += String.fromCharCode(num + 34);
           break;
 
         default:
@@ -78,7 +80,7 @@
       }
       
     })
-  return pass;
+  return password;
   }
 
   function changeOptionsPassword(event: SubmitEvent){
@@ -98,13 +100,76 @@
     }
   }
 
+  function setPasswordNivel(inputs: IcharactersPassword){
+    let nivel = 0;
+
+    switch(true){
+      case(inputs.passwordLength >= 5 && inputs.passwordLength <= 7):
+        nivel += 1; 
+        break;
+      case(inputs.passwordLength >= 8 && inputs.passwordLength <= 11):
+        nivel += 2; 
+        break;
+      case(inputs.passwordLength >= 12 && inputs.passwordLength <= 15):
+        nivel += 3; 
+        break;
+      default:
+        break;
+    }
+
+    if(inputs.hasUpercaseLetter){
+      nivel++;
+    }
+    if(inputs.hasLowercaseLetter){
+      nivel++;
+    }
+    if(inputs.hasNumbers){
+      nivel++;
+    }
+    if(inputs.hasSimbols){
+      nivel++;
+    }
+  
+    return nivel;
+
+  }
+
+  function changePasswordNivel(event){
+    const form = event.currentTarget;
+
+    const inputs = {
+      passwordLength: Number(form["passwordLength"].value),
+      hasUpercaseLetter: form["hasUpercaseLetter"].checked,
+      hasLowercaseLetter: form["hasLowercaseLetter"].checked,
+      hasNumbers: form["hasNumbers"].checked,
+      hasSimbols: form["hasSimbols"].checked,
+    }
+
+    const nivel = setPasswordNivel(inputs);
+
+    switch(true){
+      case(nivel >= 2 && nivel <= 3):
+        passwordNivel = "Easy";
+        break;
+      case(nivel >= 4 && nivel <= 5):
+        passwordNivel = "Medium";
+        break;
+      case(nivel >= 6 && nivel <= 7):
+        passwordNivel = "Hard";
+        break;
+      default:
+        break;
+    }
+
+  }
+
 </script>
 
-<form class="bg-gray-800 rounded-sm lex flex-col space-y-3 w-full p-5" on:submit|preventDefault={changeOptionsPassword}>
+<form class="bg-gray-800 rounded-sm lex flex-col space-y-3 w-full p-5" on:submit|preventDefault={changeOptionsPassword} on:change={changePasswordNivel}>
     <div class="space-y-2 flex-col flex">
       <div class="flex justify-between">
-        <span>Character length</span>
-        <span>{charactersPassword.passwordLength}</span>
+        <span class="font-bold text-lg">Character length</span>
+        <span class="text-lg">{charactersPassword.passwordLength}</span>
       </div>
       <input type="range" name="passwordLength" id="passwordLength" bind:value={charactersPassword.passwordLength} max="15" min="5"/>
     </div>
@@ -127,8 +192,25 @@
         <label for="">Include simbols</label>
       </div>
       <div class="flex justify-between w-full px-5 py-3 bg-gray-900">
-        <span>strength</span>
-        <span>10</span>
+        <span class="font-bold">Strength</span>
+        <div class="flex justify-center gap-4">
+          <div class="flex justify-center gap-1 items-center bg-gray-800 p-1">
+            {#if (passwordNivel === "Easy")}
+              <div class="h-2/3 w-1 bg-red-500"></div>
+            {/if}
+            {#if passwordNivel === "Medium"}
+              <div class="h-2/3 w-1 bg-yellow-500"></div>
+              <div class="h-2/3 w-1 bg-yellow-500"></div>
+            {/if}
+            {#if passwordNivel === "Hard"}
+              <div class="h-2/3 w-1 bg-green-500"></div>
+              <div class="h-2/3 w-1 bg-green-500"></div>
+              <div class="h-2/3 w-1 bg-green-500"></div>
+            {/if}
+          </div>
+        
+          <span class="font-bold">{passwordNivel}</span>
+        </div>
       </div>
     </div>
     <button class="bg-green-500 h-12 w-full">Generate</button>
