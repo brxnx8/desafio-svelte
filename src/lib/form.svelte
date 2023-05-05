@@ -177,19 +177,19 @@
     <div class="flex flex-col items-start space-y-2">
       <div>
         <input type="checkbox" class="accent-green-600" bind:checked="{charactersPassword.hasUpercaseLetter}" name="hasUpercaseLetter" id="hasUpercaseLetter"/>
-        <label for="">Include uppercase letters</label>
+        <label for="hasUpercaseLetter">Include uppercase letters</label>
       </div>
       <div>
         <input type="checkbox" class="accent-green-600" bind:checked="{charactersPassword.hasLowercaseLetter}" name="hasLowercaseLetter" id="hasLowercaseLetter"/>
-        <label for="">Include lowercase letters</label>
+        <label for="hasLowercaseLetter">Include lowercase letters</label>
       </div>
       <div>
         <input type="checkbox" class="accent-green-600" bind:checked="{charactersPassword.hasNumbers}" name="hasNumbers" id="hasNumbers"/>
-        <label for="">Include numbers</label>
+        <label for="hasNumbers">Include numbers</label>
       </div>
       <div>
         <input type="checkbox" class="accent-green-600" bind:checked="{charactersPassword.hasSimbols}" name="hasSimbols" id="hasSimbols"/>
-        <label for="">Include simbols</label>
+        <label for="hasSimbols">Include simbols</label>
       </div>
       <div class="flex justify-between w-full px-5 py-3 bg-gray-900">
         <span class="font-bold">Strength:</span>
